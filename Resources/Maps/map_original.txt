@@ -1,0 +1,118 @@
+Juh_skorica skorica purple -10 -2
+Juh_zazvor zazvor black -8 -4
+Juh_vanilkaJ vanilka red -8 0
+Juh_vanilkaS vanilka red -6 2
+Juh_klincek klincek yellow -6 -4
+Juh_prazdny - white -6 -2
+
+Stred_korenieV korenie orange -4 -2
+Stred_korenieZ korenie orange 0 6
+Stred_skorica skorica purple -2 0
+Stred_klincek klincek yellow -2 -4
+Stred_prazdnyZ - white -4 6
+Stred_prazdnyV - white -4 2
+
+Zapad_skorica skorica purple 4 4
+Zapad_klincek klincek yellow 2 4
+Zapad_korenie korenie orange 2 2
+Zapad_vanilka vanilka red 6 6
+Zapad_prazdnyV - white 0 0
+Zapad_prazdnyZ - white 0 2
+
+Vychod_zazvor zazvor black 2 0
+Vychod_skorica skorica purple 2 -2
+Vychod_klincek klincek yellow 0 -2
+Vychod_korenie korenie orange 4 -2
+Vychod_prazdny - white 4 0
+
+Sever_klincek klincek yellow 10 -2
+Sever_prazdny - white 6 -2
+Sever_vanilka vanilka red 6 2
+Sever_zazvorV zazvor black 8 0
+Sever_zazvorZ zazvor black 8 4
+
+# cislovane od juhu
+Ocean_Z1 - blue -10 4
+Ocean_Z2 - blue -6 6
+Ocean_Z3 - blue -2 8
+Ocean_Z4 - blue 2 8
+Ocean_Z5 - blue 4 8
+Ocean_Z6 - blue 8 8
+Ocean_Z7 - blue 10 6
+Ocean_V1 - blue -6 -6
+Ocean_V2 - blue -4 -6
+Ocean_V3 - blue 0 -6
+
+
+Juh_skorica Juh_vanilkaJ
+Juh_vanilkaJ Juh_vanilkaS
+Juh_vanilkaJ Juh_zazvor
+Juh_vanilkaJ Juh_klincek
+Juh_vanilkaS Juh_prazdny
+Juh_prazdny Juh_klincek
+Juh_klincek Juh_zazvor
+
+Stred_prazdnyV Juh_vanilkaS
+Stred_prazdnyZ Juh_vanilkaS
+Stred_korenieV Juh_prazdny
+
+Stred_klincek Stred_korenieV
+Stred_klincek Stred_skorica
+Stred_korenieV Stred_skorica
+Stred_korenieV Stred_prazdnyV
+Stred_skorica Stred_prazdnyV
+Stred_skorica Stred_korenieZ
+Stred_prazdnyV Stred_prazdnyZ
+Stred_korenieZ Stred_prazdnyZ
+
+Zapad_vanilka Stred_korenieZ
+Zapad_prazdnyZ Stred_skorica
+Zapad_prazdnyV Stred_klincek
+
+Zapad_prazdnyV Zapad_prazdnyZ
+Zapad_prazdnyV Zapad_korenie
+Zapad_prazdnyZ Zapad_klincek
+Zapad_klincek Zapad_korenie
+Zapad_klincek Zapad_skorica
+Zapad_klincek Zapad_vanilka
+Zapad_vanilka Zapad_skorica
+
+Vychod_prazdny Zapad_korenie
+
+Vychod_klincek Vychod_skorica
+Vychod_klincek Vychod_zazvor
+Vychod_skorica Vychod_korenie
+Vychod_korenie Vychod_zazvor
+Vychod_zazvor Vychod_prazdny
+
+Sever_prazdny Vychod_korenie
+Sever_vanilka Vychod_prazdny
+Sever_vanilka Zapad_skorica
+
+Sever_prazdny Sever_vanilka
+Sever_prazdny Sever_zazvorV
+Sever_prazdny Sever_klincek
+Sever_vanilka Sever_zazvorZ
+Sever_zazvorZ Sever_zazvorV
+Sever_zazvorV Sever_klincek
+
+Ocean_Z1 Juh_skorica
+Ocean_Z1 Ocean_Z2
+Ocean_Z2 Ocean_Z3
+Ocean_Z3 Stred_prazdnyZ
+Ocean_Z3 Ocean_Z4
+Ocean_Z4 Ocean_Z5
+Ocean_Z5 Zapad_vanilka
+Ocean_Z5 Ocean_Z6
+Ocean_Z6 Ocean_Z7
+Ocean_Z7 Sever_vanilka
+Ocean_Z7 Sever_zazvorZ
+Ocean_Z7 Sever_klincek
+Ocean_V1 Juh_zazvor
+Ocean_V1 Ocean_V2
+Ocean_V2 Juh_klincek
+Ocean_V2 Stred_klincek
+Ocean_V2 Ocean_V3
+Ocean_V3 Stred_klincek
+Ocean_V3 Vychod_klincek
+Ocean_V3 Vychod_skorica

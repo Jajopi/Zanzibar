@@ -1,0 +1,7 @@
+Mesto knihy ff00ff -2 0
+Dedina knihy ff00ff 2 3 Mesto
+Stanica - 000000 -1 -4 Mesto
+Luka - 000000 2 -4 Dedina
+Les drevo 00ff88 0 -2 Dedina
+Luka Les
+Les Stanica
