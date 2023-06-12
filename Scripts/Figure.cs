@@ -21,12 +21,12 @@ public class Figure : MonoBehaviour
     Vector3 startingScale;
     float targetScaleMultiply = 1f;
 
-    public void Set(string _owner, int _speed, Node _node, string colorString)
+    public void Set(string _owner, int _speed, Node _node)
     {
         parent = transform.parent.GetComponent<Board>();
         SetOwner(_owner);
         SetSpeed(_speed);
-        SetColor(colorString);
+        SetColor(_owner);
         SetNode(_node); Place();
 
         startingScale = transform.localScale;
@@ -34,7 +34,10 @@ public class Figure : MonoBehaviour
     }
 
     void SetOwner(string _owner) { owner = _owner; }
-    void SetSpeed(int _speed) { speed = _speed; }
+    void SetSpeed(int _speed) {
+        speed = _speed;
+        transform.GetComponentInChildren<TextMesh>().text = speed.ToString();
+    }
 
     void SetColor(string colorString)
     {
@@ -89,7 +92,8 @@ public class Figure : MonoBehaviour
             targetPosition = targetPositions.Dequeue();
         }
 
-        if (transform.localScale.x != targetScaleMultiply)
+        if (transform.localScale.x != targetScaleMultiply &&
+            targetPositions.Count == 0)
         {
             transform.localScale = Vector3.Lerp(
                 transform.localScale, startingScale * targetScaleMultiply,
@@ -97,7 +101,6 @@ public class Figure : MonoBehaviour
         }
 
         targetPosition.y = targetScaleMultiply * startingScale.y + floatAbove;
-
     }
 
     public void MoveToNode(Node nodeTo)

@@ -333,6 +333,14 @@ MonoBehaviour:
   mapFileName: map_original
   nodes: []
   figures: []
+  playerNames:
+  - druzinka1
+  - druzinka2
+  - druzinka3
+  playerColors:
+  - blue
+  - red
+  - green
   emptyNode: {fileID: 2104943940863894096, guid: 43d4677efb55b8e4ab3cf54386b9b8b8, type: 3}
   emptyFigure: {fileID: 6323272003959987905, guid: 7ecd39b1e2ff21949b4cb01d43780289, type: 3}
 --- !u!4 &939486304
@@ -417,7 +425,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -441,14 +449,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 100, z: 0}
+  m_LocalRotation: {x: -0.27059805, y: 0.6532815, z: -0.27059805, w: -0.6532815}
+  m_LocalPosition: {x: 10, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 939486304}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 270, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0

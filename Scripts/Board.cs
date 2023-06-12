@@ -7,11 +7,15 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     Logic logic;
+    bool placingMode = true;
 
     public string mapFileName;
 
     public List<Node> nodes = new List<Node>();
     public List<Figure> figures = new List<Figure>();
+    public string[] playerNames;
+    public string[] playerColors;
+
     GameObject emptyLine;
     public GameObject emptyNode;
     public GameObject emptyFigure;
@@ -26,16 +30,14 @@ public class Board : MonoBehaviour
         LoadPrefabs();
 
         logic = transform.GetComponent<Logic>();
+        logic.SetPlayers(new List<string>(playerNames));
 
         if (mapFileName != "") { CreateFromFile(mapFileName); }
 
-        Camera camera = GetComponentInChildren<Camera>();
-        camera.orthographicSize *= transform.localScale.x;
-        camera.transform.LookAt(transform.position);
-
-        //PlaceFigure("druzinka1", 2, GetNodeByTitle("Mesto"), "ffffff");
-        //PlaceFigure("druzinka1", 4, GetNodeByTitle("Dedina"), "ffffff");
-        //PlaceFigure("druzinka2", 3, GetNodeByTitle("Les"), "ffff00");
+        //Camera camera = GetComponentInChildren<Camera>();
+        //Camera camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        //camera.orthographicSize *= transform.localScale.x;
+        //camera.transform.LookAt(transform.position);
     }
 
     void LoadPrefabs()
@@ -86,16 +88,46 @@ public class Board : MonoBehaviour
         nodes.Add(node.GetComponent<Node>());
     }
 
-    public void PlaceFigure(string owner, int speed, Node node, string color)
+    public void PlaceFigure(string owner, int speed, Node node)
     {
+        if (node.IsOccupied()) { return; }
+
         string title = owner.ToString() + "-" + speed.ToString();
         GameObject figure = Instantiate(emptyFigure, this.transform, false);
         figure.name = title;
         figure.AddComponent<Figure>();
-        figure.GetComponent<Figure>().Set(owner, speed, node, color);
+        figure.GetComponent<Figure>().Set(owner, speed, node);
         figures.Add(figure.GetComponent<Figure>());
 
         node.PlaceFigure(figure.GetComponent<Figure>());
+    }
+
+    void PlaceNextFigure(Node node)
+    {
+        switch (figures.Count)
+        {
+            case 0:
+                PlaceFigure("druzinka1", 2, node);
+                break;
+            case 1:
+                PlaceFigure("druzinka1", 5, node);
+                break;
+            case 2:
+                PlaceFigure("druzinka2", 3, node);
+                break;
+            case 3:
+                PlaceFigure("druzinka2", 5, node);
+                break;
+            case 4:
+                PlaceFigure("druzinka3", 2, node);
+                break;
+            case 5:
+                PlaceFigure("druzinka3", 6, node);
+                break;
+            default:
+                placingMode = false;
+                break;
+        }
     }
 
     public void CreateLine(Node nodeA, Node nodeB)
@@ -156,22 +188,22 @@ public class Board : MonoBehaviour
             {
                 AddNode(args[0], args[1], defaultColorName,
                     new Pair<float, float>(
-                        - float.Parse(args[3]),
-                        float.Parse(args[4])));
+                        - float.Parse(args[4]),
+                        float.Parse(args[3])));
             }
             else if (args.Length == 5)
             {
                 AddNode(args[0], args[1], args[2],
                     new Pair<float, float>(
-                        - float.Parse(args[3]),
-                        float.Parse(args[4])));
+                        - float.Parse(args[4]),
+                        float.Parse(args[3])));
             }
             else if (args.Length == 6)
             {
                 AddNode(args[0], args[1], args[2],
                     new Pair<float, float>(
-                        - float.Parse(args[3]),
-                        float.Parse(args[4])));
+                        - float.Parse(args[4]),
+                        float.Parse(args[3])));
                 AddEdge(args[0], args[5]);
             }
         }
@@ -179,6 +211,14 @@ public class Board : MonoBehaviour
 
     public Color32 TranslateColor(string colorString)
     {
+        for (int i = 0; i < playerNames.Length; i++)
+        {
+            if (playerNames[i] == colorString)
+            {
+                colorString = playerColors[i]; break;
+            }
+        }
+
         if (colorString == "red") colorString = "ff0000";
         else if (colorString == "blue") colorString = "0000ff";
         else if (colorString == "green") colorString = "00ff00";
@@ -199,6 +239,13 @@ public class Board : MonoBehaviour
 
     public void OnNodeClick(Node node)
     {
-        logic.OnNodeClick(node);
+        if (placingMode)
+        {
+            PlaceNextFigure(node);
+        }
+        else
+        {
+            logic.OnNodeClick(node);
+        }
     }
 }
