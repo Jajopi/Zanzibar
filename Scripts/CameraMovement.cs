@@ -5,12 +5,13 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     List<KeyCode> keysPressed = new List<KeyCode>();
-    float moveSpeed = 3f;
+    float moveSpeed = 3f; // quite a complex function
+    float rotationSpeed = 45f; //degrees per second
     float orthoSize;
     Vector3 directionUp, directionDown, directionLeft, directionRight;
     Vector3 directionAscend, directionDescend;
 
-    float maxHeight = 150f, minHeight = 50f;
+    float maxHeight = 100f, minHeight = 40f;
 
     void Start()
     {
@@ -71,38 +72,22 @@ public class CameraMovement : MonoBehaviour
         if (keysPressed.Count == 0) return;
         KeyCode k = keysPressed[keysPressed.Count - 1];
 
-        if (k == KeyCode.W || k == KeyCode.UpArrow)
+        if(keysPressed.Contains(KeyCode.W) || keysPressed.Contains(KeyCode.UpArrow))
         {
             Translate(directionUp);
         }
-        else if (k == KeyCode.S || k == KeyCode.DownArrow)
+        if (keysPressed.Contains(KeyCode.S) || keysPressed.Contains(KeyCode.DownArrow))
         {
             Translate(directionDown);
         }
-        else if (k == KeyCode.A || k == KeyCode.LeftArrow)
+        
+        if (keysPressed.Contains(KeyCode.A) || keysPressed.Contains(KeyCode.LeftArrow))
         {
-            Translate(directionLeft);
+            Rotate(true);
         }
-        else if (k == KeyCode.D || k == KeyCode.RightArrow)
+        if (keysPressed.Contains(KeyCode.D) || keysPressed.Contains(KeyCode.RightArrow))
         {
-            Translate(directionRight);
-        }
-
-        else if(keysPressed.Contains(KeyCode.W) || keysPressed.Contains(KeyCode.UpArrow))
-        {
-            Translate(directionUp);
-        }
-        else if (keysPressed.Contains(KeyCode.S) || keysPressed.Contains(KeyCode.DownArrow))
-        {
-            Translate(directionDown);
-        }
-        else if (keysPressed.Contains(KeyCode.A) || keysPressed.Contains(KeyCode.LeftArrow))
-        {
-            Translate(directionLeft);
-        }
-        else if (keysPressed.Contains(KeyCode.D) || keysPressed.Contains(KeyCode.RightArrow))
-        {
-            Translate(directionRight);
+            Rotate(false);
         }
 
 
@@ -110,7 +95,7 @@ public class CameraMovement : MonoBehaviour
         {
             Translate(directionAscend);
         }
-        else if (keysPressed.Contains(KeyCode.Q))
+        if (keysPressed.Contains(KeyCode.Q))
         {
             Translate(directionDescend);
         }
@@ -119,16 +104,25 @@ public class CameraMovement : MonoBehaviour
 
     void Translate(Vector3 direction)
     {
-        transform.Translate(direction * moveSpeed * Time.deltaTime *
-            Mathf.Sqrt(maxHeight - transform.position.y + maxHeight / minHeight),
+        transform.parent.Translate(direction * moveSpeed * Time.deltaTime *
+            Mathf.Sqrt(maxHeight - transform.position.y + maxHeight / minHeight));
+    }
+
+    void Rotate(bool direction)
+    {
+        float multiply = 1;
+        if (direction) { multiply = -1; }
+
+        transform.parent.Rotate(
+            new Vector3(0, rotationSpeed * multiply * Time.deltaTime, 0),
             Space.World);
     }
 
     void LimitHeight()
     {
-        float height = transform.position.y;
+        float height = transform.parent.position.y;
         height = Mathf.Max(Mathf.Min(height, maxHeight), minHeight);
-        transform.position = new Vector3(transform.position.x,
-            height, transform.position.z);
+        transform.parent.position = new Vector3(
+            transform.parent.position.x, height, transform.parent.position.z);
     }
 }

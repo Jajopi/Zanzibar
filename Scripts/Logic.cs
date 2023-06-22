@@ -21,9 +21,9 @@ public class Logic : MonoBehaviour
         state = 0;
         /*  Meaning of states:
          *  0: "waitForFigureToChoose" -> 1
-         *  1: "waitForPlaceToMove" -> 2 / 3
-         *  2: "waitForPlaceToPush" -> 0
-         *  3: "waitForPlaceToYeet" -> 0
+         *  1: "waitForPlaceToMove" -> 1 / 2 / 3
+         *  2: "waitForPlaceToPush" -> 1 / 0
+         *  3: "waitForPlaceToYeet" -> 1 / 0
          *  4: "waitForTimer"
          */
 
@@ -165,7 +165,7 @@ public class Logic : MonoBehaviour
 
         else if (state == 2)
         {
-            if (node.GetFigure() == targetFigure) { GoToState(0); }
+            if (node.GetFigure() == targetFigure) { GoToState(1); }
 
             targetNode = node;
             if (targetNode.IsOccupied()) { return; }
@@ -189,7 +189,7 @@ public class Logic : MonoBehaviour
 
         else if (state == 3)
         {
-            if (node.GetFigure() == targetFigure) { GoToState(0); }
+            if (node.GetFigure() == targetFigure) { GoToState(1); }
 
             targetNode = node;
             if (targetNode.IsOccupied()) { return; }
