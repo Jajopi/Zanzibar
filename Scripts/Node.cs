@@ -30,6 +30,8 @@ public class Node : MonoBehaviour
 
     public bool IsOccupied() { return occupied; }
 
+    public bool IsUnconnected() { return (neighbours.Count == 0); }
+
     public Figure GetFigure()
     {
         if (!IsOccupied()) return null;
@@ -99,7 +101,6 @@ public class Node : MonoBehaviour
         transform.localPosition = new Vector3(
             coordinates.First, 2, coordinates.Second);
     }
-
 
     public void OnMouseDown()
     {

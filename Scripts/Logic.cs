@@ -121,15 +121,20 @@ public class Logic : MonoBehaviour
                     found = true; break;
                 }
             }
-            if (!found) { return; }
+            if (!found && !selectedFigure.GetNode().IsUnconnected()) { return; }
 
             if (node.GetFigure() is null)
             {
+                if (selectedFigure.GetNode().IsUnconnected())
+                {
+                    stepsLeft = 1;
+                }
                 MoveFigure(selectedFigure, node);
                 GoToState(1);
             }
             else
             {
+                if (selectedFigure.GetNode().IsUnconnected()) { return; }
                 figure = node.GetFigure();
 
                 if (figure.GetOwner() == selectedFigure.GetOwner()) { return; }

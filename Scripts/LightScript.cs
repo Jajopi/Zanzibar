@@ -6,12 +6,13 @@ public class LightScript : MonoBehaviour
 {
     Light daylight, moonlight;
 
-    public float minutesPerDay = 1f;
+    float minutesPerDay;
 
     void Start()
     {
         daylight = GameObject.Find("Daylight").GetComponent<Light>();
         moonlight = GameObject.Find("Moonlight").GetComponent<Light>();
+        minutesPerDay = GameObject.Find("Board").GetComponent<Board>().minutesPerDay;
     }
 
     void Update()

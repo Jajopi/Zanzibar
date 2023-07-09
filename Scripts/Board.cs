@@ -7,7 +7,12 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     Logic logic;
-    bool placingMode = true;
+    bool placingMode = false;
+    int createdFigures = 0;
+    public int figureCount = 5;
+    public int playerCount = 3;
+    float figureMargin = 1f;
+    float figureBenchX = 4f, figureBenchY = 2f;
 
     public string mapFileName;
 
@@ -25,6 +30,8 @@ public class Board : MonoBehaviour
     Color32 edgeColor = Color.red;
     string defaultColorName = "ffffff";
 
+    public float minutesPerDay = 2;
+
     void Start()
     {
         LoadPrefabs();
@@ -38,6 +45,8 @@ public class Board : MonoBehaviour
         //Camera camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         //camera.orthographicSize *= transform.localScale.x;
         //camera.transform.LookAt(transform.position);
+
+        PlaceAllFigures();
     }
 
     void LoadPrefabs()
@@ -76,7 +85,7 @@ public class Board : MonoBehaviour
         //return null;
     }
 
-    public void AddNode(string title, string resource, string color,
+    public Node AddNode(string title, string resource, string color,
         Pair<float, float> coordinates)
     {
         if (resource == "-") { resource = null; }
@@ -86,20 +95,47 @@ public class Board : MonoBehaviour
         node.AddComponent<Node>();
         node.GetComponent<Node>().Set(resource, color, coordinates);
         nodes.Add(node.GetComponent<Node>());
+
+        return node.GetComponent<Node>();
     }
 
     public void PlaceFigure(string owner, int speed, Node node)
     {
-        if (node.IsOccupied()) { return; }
+        if (node is not null)
+        {
+            if (node.IsOccupied()) { return; }
+        }
 
         string title = owner.ToString() + "-" + speed.ToString();
         GameObject figure = Instantiate(emptyFigure, this.transform, false);
         figure.name = title;
         figure.AddComponent<Figure>();
-        figure.GetComponent<Figure>().Set(owner, speed, node);
         figures.Add(figure.GetComponent<Figure>());
 
+        if (node is null)
+        {
+            float yCoord = createdFigures % figureCount * figureMargin
+                + figureBenchX;
+            float xCoord = Mathf.Floor(createdFigures / figureCount)
+                * figureMargin + figureBenchX;
+            node = AddNode("underFigure" + xCoord.ToString() + yCoord.ToString(),
+                "-", "white", new Pair<float, float>(xCoord, yCoord));
+        }
+
+        figure.GetComponent<Figure>().Set(owner, speed, node);
         node.PlaceFigure(figure.GetComponent<Figure>());
+        createdFigures++;
+    }
+
+    void PlaceAllFigures()
+    {
+        for (int i = 0; i < playerCount; i++)
+        {
+            for (int j = 0; j < figureCount; j++)
+            {
+                PlaceFigure(playerNames[i], j + 2, null);
+            }
+        }
     }
 
     void PlaceNextFigure(Node node)
@@ -179,6 +215,22 @@ public class Board : MonoBehaviour
             if (args.Length == 0) { continue; }
             if (args[0].Length == 0) { continue; }
             if (args[0][0] == '#') { continue; }
+            if (args[0] == "figureBench:")
+            {
+                figureBenchX = float.Parse(args[1]);
+                figureBenchY = float.Parse(args[2]);
+                continue;
+            }
+            if (args[0] == "figureCount:")
+            {
+                figureCount = Int32.Parse(args[1]);
+                continue;
+            }
+            if (args[0] == "playerCount:")
+            {
+                playerCount = Int32.Parse(args[1]);
+                continue;
+            }
 
             if (args.Length == 2)
             {

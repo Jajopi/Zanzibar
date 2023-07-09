@@ -27,8 +27,9 @@ public class Figure : MonoBehaviour
         SetOwner(_owner);
         SetSpeed(_speed);
         SetColor(_owner);
-        SetNode(_node); Place();
-
+        SetNode(_node);
+        Place();
+        
         startingScale = transform.localScale;
 
     }
@@ -62,11 +63,7 @@ public class Figure : MonoBehaviour
     public void Place()
     {
         Pair<float, float> coordinates = node.GetCoordinates();
-        transform.localPosition = new Vector3(
-            coordinates.First,
-            transform.localScale.y + 2,
-            coordinates.Second);
-        targetPosition = transform.localPosition;
+        HardPlace(coordinates);
     }
 
     public void Replace()
@@ -76,6 +73,15 @@ public class Figure : MonoBehaviour
             coordinates.First,
             startingScale.y + floatAbove, // is rewritten at Update
             coordinates.Second));
+    }
+
+    public void HardPlace(Pair<float, float> coordinates)
+    {
+        transform.localPosition = new Vector3(
+            coordinates.First,
+            transform.localScale.y + floatAbove,
+            coordinates.Second);
+        targetPosition = transform.localPosition;
     }
 
     void Update()
