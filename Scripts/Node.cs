@@ -8,14 +8,15 @@ public class Node : MonoBehaviour
     Board parent;
     List<Node> neighbours = new List<Node>();
 
-    string resource;
+    string resource, location;
     Color32 color;
     bool occupied = false;
     Figure figure = null;
 
     Material sprite;
 
-    public void Set(string _resource, string colorString, Pair<float, float> coordinates)
+    public void Set(string _resource, string _location, string colorString,
+        Pair<float, float> coordinates)
     {
         parent = transform.parent.GetComponent<Board>();
         //transform.localScale = new Vector3(
@@ -23,6 +24,7 @@ public class Node : MonoBehaviour
         //    1f / parent.transform.localScale.y,
         //    1f / parent.transform.localScale.z);
         SetResource(_resource);
+        SetLocation(_location);
         SetCoordinates(coordinates);
         SetColor(colorString);
     }
@@ -41,6 +43,7 @@ public class Node : MonoBehaviour
     public List<Node> GetNeighbours() { return neighbours; }
     public Board GetParent() { return  parent; }
     public string GetResource() { return resource; }
+    public string GetLocation() { return location; }
     public string GetTitle() { return this.name; }
 
     public Pair<float, float> GetCoordinates() {
@@ -82,8 +85,11 @@ public class Node : MonoBehaviour
     public void SetResource(string _resource)
     {
         resource = _resource;
-        //sprite = parent.GetSprite(resource);
-        //gameObject.GetComponent<MeshRenderer>().material = sprite;
+    }
+
+    public void SetLocation(string _location)
+    {
+        location = _location;
     }
 
     public void SetColor(string colorString)

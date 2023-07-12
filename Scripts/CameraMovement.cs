@@ -8,7 +8,7 @@ public class CameraMovement : MonoBehaviour
     float moveSpeed = 3f; // quite a complex function
     float rotationSpeed = 45f; //degrees per second
     float orthoSize;
-    Vector3 directionUp, directionDown, directionLeft, directionRight;
+    Vector3 directionUp, directionDown;
     Vector3 directionAscend, directionDescend;
 
     float maxHeight = 100f, minHeight = 40f;
@@ -17,8 +17,8 @@ public class CameraMovement : MonoBehaviour
     {
         directionUp = new Vector3(1, 0, 0);
         directionDown = new Vector3(-1, 0, 0);
-        directionLeft = new Vector3(0, 0, 1);
-        directionRight = new Vector3(0, 0, -1);
+        //directionLeft = new Vector3(0, 0, 1);
+        //directionRight = new Vector3(0, 0, -1);
 
         directionAscend = new Vector3(0, 1, 0);
         directionDescend = new Vector3(0, -1, 0);
@@ -62,6 +62,8 @@ public class CameraMovement : MonoBehaviour
         UpdateKey(KeyCode.DownArrow);
         UpdateKey(KeyCode.LeftArrow);
         UpdateKey(KeyCode.RightArrow);
+        
+        UpdateKey(KeyCode.Space);
 
         UpdateKey(KeyCode.Q);
         UpdateKey(KeyCode.E);
@@ -99,7 +101,12 @@ public class CameraMovement : MonoBehaviour
         {
             Translate(directionDescend);
         }
-        else return;
+
+        if (keysPressed.Contains(KeyCode.Space))
+        {
+            transform.parent.position = new Vector3(0,
+                transform.parent.position.y, 0);
+        }
     }
 
     void Translate(Vector3 direction)

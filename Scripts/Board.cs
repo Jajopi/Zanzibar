@@ -75,6 +75,8 @@ public class Board : MonoBehaviour
         //return null;
     }
 
+    public List<Figure> GetAllFigures() { return figures; }
+
     Node GetNodeByTitle(string title)
     {
         foreach (Node node in nodes)
@@ -85,15 +87,16 @@ public class Board : MonoBehaviour
         //return null;
     }
 
-    public Node AddNode(string title, string resource, string color,
-        Pair<float, float> coordinates)
+    public Node AddNode(string title, string resource, string location,
+        string color, Pair<float, float> coordinates)
     {
         if (resource == "-") { resource = null; }
+        if (location == "-") { location = null; }
 
         GameObject node = Instantiate(emptyNode, this.transform, false);
         node.name = title;
         node.AddComponent<Node>();
-        node.GetComponent<Node>().Set(resource, color, coordinates);
+        node.GetComponent<Node>().Set(resource, location, color, coordinates);
         nodes.Add(node.GetComponent<Node>());
 
         return node.GetComponent<Node>();
@@ -119,7 +122,7 @@ public class Board : MonoBehaviour
             float xCoord = Mathf.Floor(createdFigures / figureCount)
                 * figureMargin + figureBenchX;
             node = AddNode("underFigure" + xCoord.ToString() + yCoord.ToString(),
-                "-", "white", new Pair<float, float>(xCoord, yCoord));
+                "-", "-", "white", new Pair<float, float>(xCoord, yCoord));
         }
 
         figure.GetComponent<Figure>().Set(owner, speed, node);
@@ -236,27 +239,27 @@ public class Board : MonoBehaviour
             {
                 AddEdge(args[0], args[1]);
             }
-            else if (args.Length == 4)
-            {
-                AddNode(args[0], args[1], defaultColorName,
-                    new Pair<float, float>(
-                        - float.Parse(args[4]),
-                        float.Parse(args[3])));
-            }
             else if (args.Length == 5)
             {
-                AddNode(args[0], args[1], args[2],
+                AddNode(args[0], args[1], args[2], defaultColorName,
                     new Pair<float, float>(
                         - float.Parse(args[4]),
                         float.Parse(args[3])));
             }
             else if (args.Length == 6)
             {
-                AddNode(args[0], args[1], args[2],
+                AddNode(args[0], args[1], args[2], args[3],
                     new Pair<float, float>(
-                        - float.Parse(args[4]),
-                        float.Parse(args[3])));
-                AddEdge(args[0], args[5]);
+                        - float.Parse(args[5]),
+                        float.Parse(args[4])));
+            }
+            else if (args.Length == 7)
+            {
+                AddNode(args[0], args[1], args[2], args[3],
+                    new Pair<float, float>(
+                        - float.Parse(args[5]),
+                        float.Parse(args[4])));
+                AddEdge(args[0], args[6]);
             }
         }
     }

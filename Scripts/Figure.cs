@@ -115,7 +115,7 @@ public class Figure : MonoBehaviour
         nodeTo.PlaceFigure(this);
     }
 
-    public void ColorAsSelected(bool selected)
+    public void MarkAsSelected(bool selected)
     {
         if (selected)
         {

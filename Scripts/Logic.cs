@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Logic : MonoBehaviour
 {
     int state;
     int stepsLeft;
     List<string> playerNames;
+    List<int> playerPoints;
     int actualPlayer;
     Figure figure, targetFigure, selectedFigure;
     List<Figure> movedFigures;
@@ -15,6 +18,9 @@ public class Logic : MonoBehaviour
     // select: selectedFigure --then-- targetFigure --then-- targetNode
 
     int movesPerPlayer = 2;
+
+    public GameObject scoreBoard;
+    public int defaultPoints = 10;
 
     void Start()
     {
@@ -34,6 +40,7 @@ public class Logic : MonoBehaviour
     {
         if (state == 4)
         {
+            UpdatePoints();
             GoToState(0);
         }
     }
@@ -41,6 +48,12 @@ public class Logic : MonoBehaviour
     public void SetPlayers(List<string> names)
     {
         playerNames = names;
+        playerPoints = new List<int>(new int[playerNames.Count]);
+        for (int i = 0; i < playerNames.Count; i++)
+        {
+            playerPoints[i] = defaultPoints;
+        }
+
         actualPlayer = 0;
     }
 
@@ -206,16 +219,56 @@ public class Logic : MonoBehaviour
         }
     }
 
+    void ActivateQuest(List<Figure> figures, List<int> points,
+        string resource, string location)
+    {
+        int count = 0;
+        foreach (Figure figure in figures)
+        {
+            if (figure.GetOwner() == playerNames[actualPlayer])
+            {
+                if (resource is not null &&
+                    resource == figure.GetNode().GetResource())
+                {
+                    count++;
+                }
+                else if (location is not null &&
+                    location == figure.GetNode().GetLocation())
+                {
+                    count++;
+                }
+            }
+        }
+
+        playerPoints[actualPlayer] += points[count];
+        if (playerPoints[actualPlayer] < 0)
+        {
+            playerPoints[actualPlayer] = 0;
+        }
+        UpdatePoints();
+    }
+
+    void UpdatePoints()
+    {
+        string spaces = "        ";
+        string text = "";
+        for (int i = 0; i < playerNames.Count; i++)
+        {
+            text += playerNames[i] + ": " + playerPoints[i].ToString() + spaces;
+        }
+        scoreBoard.GetComponent<TextMeshProUGUI>().text = text;
+    }
+
     void Select(Figure fig)
     {
         if (fig is null) { return; }
-        fig.ColorAsSelected(true);
+        fig.MarkAsSelected(true);
     }
 
     void UnSelect(Figure fig)
     {
         if (fig is null) { return; }
-        fig.ColorAsSelected(false);
+        fig.MarkAsSelected(false);
     }
 
     void MoveFigure(Figure figure, Node node)

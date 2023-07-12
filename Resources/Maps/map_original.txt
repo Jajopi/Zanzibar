@@ -1,47 +1,47 @@
-Juh_skorica skorica purple -10 -2
-Juh_zazvor zazvor black -8 -4
-Juh_vanilkaJ vanilka red -8 0
-Juh_vanilkaS vanilka red -6 2
-Juh_klincek klincek yellow -6 -4
-Juh_prazdny - white -6 -2
+Juh_skorica skorica juh purple -10 -2
+Juh_zazvor zazvor juh black -8 -4
+Juh_vanilkaJ vanilka juh red -8 0
+Juh_vanilkaS vanilka juh red -6 2
+Juh_klincek klincek juh yellow -6 -4
+Juh_prazdny - juh white -6 -2
 
-Stred_korenieV korenie orange -4 -2
-Stred_korenieZ korenie orange 0 6
-Stred_skorica skorica purple -2 0
-Stred_klincek klincek yellow -2 -4
-Stred_prazdnyZ - white -4 6
-Stred_prazdnyV - white -4 2
+Stred_korenieV korenie stred orange -4 -2
+Stred_korenieZ korenie stred orange 0 6
+Stred_skorica skorica stred purple -2 0
+Stred_klincek klincek stred yellow -2 -4
+Stred_prazdnyZ - stred white -4 6
+Stred_prazdnyV - stred white -4 2
 
-Zapad_skorica skorica purple 4 4
-Zapad_klincek klincek yellow 2 4
-Zapad_korenie korenie orange 2 2
-Zapad_vanilka vanilka red 6 6
-Zapad_prazdnyV - white 0 0
-Zapad_prazdnyZ - white 0 2
+Zapad_skorica skorica zapad purple 4 4
+Zapad_klincek klincek zapad yellow 2 4
+Zapad_korenie korenie zapad orange 2 2
+Zapad_vanilka vanilka zapad red 6 6
+Zapad_prazdnyV - zapad white 0 0
+Zapad_prazdnyZ - zapad white 0 2
 
-Vychod_zazvor zazvor black 2 0
-Vychod_skorica skorica purple 2 -2
-Vychod_klincek klincek yellow 0 -2
-Vychod_korenie korenie orange 4 -2
-Vychod_prazdny - white 4 0
+Vychod_zazvor zazvor vychod black 2 0
+Vychod_skorica skorica vychod purple 2 -2
+Vychod_klincek klincek vychod yellow 0 -2
+Vychod_korenie korenie vychod orange 4 -2
+Vychod_prazdny - vychod white 4 0
 
-Sever_klincek klincek yellow 10 -2
-Sever_prazdny - white 6 -2
-Sever_vanilka vanilka red 6 2
-Sever_zazvorV zazvor black 8 0
-Sever_zazvorZ zazvor black 8 4
+Sever_klincek klincek sever yellow 10 -2
+Sever_prazdny - sever white 6 -2
+Sever_vanilka vanilka sever red 6 2
+Sever_zazvorV zazvor sever black 8 0
+Sever_zazvorZ zazvor sever black 8 4
 
 # cislovane od juhu
-Ocean_Z1 - blue -10 4
-Ocean_Z2 - blue -6 6
-Ocean_Z3 - blue -2 8
-Ocean_Z4 - blue 2 8
-Ocean_Z5 - blue 4 8
-Ocean_Z6 - blue 8 8
-Ocean_Z7 - blue 10 6
-Ocean_V1 - blue -6 -6
-Ocean_V2 - blue -4 -6
-Ocean_V3 - blue 0 -6
+Ocean_Z1 - - blue -10 4
+Ocean_Z2 - - blue -6 6
+Ocean_Z3 - - blue -2 8
+Ocean_Z4 - - blue 2 8
+Ocean_Z5 - - blue 4 8
+Ocean_Z6 - - blue 8 8
+Ocean_Z7 - - blue 10 6
+Ocean_V1 - - blue -6 -6
+Ocean_V2 - - blue -4 -6
+Ocean_V3 - - blue 0 -6
 
 
 Juh_skorica Juh_vanilkaJ
