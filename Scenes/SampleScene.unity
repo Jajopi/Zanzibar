@@ -626,7 +626,7 @@ GameObject:
   - component: {fileID: 1490882209}
   - component: {fileID: 1490882208}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -761,6 +761,7 @@ GameObject:
   - component: {fileID: 1525783873}
   - component: {fileID: 1525783872}
   - component: {fileID: 1525783871}
+  - component: {fileID: 1525783875}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -850,6 +851,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1525783875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525783870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a65aac07885ca242b28dfa340be18f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questPrefab: {fileID: 798473634377002776, guid: 3a387acc2b32afe489443db63c7ecfd1, type: 3}
+  questFileName: quests_original
 --- !u!1 &1796413468
 GameObject:
   m_ObjectHideFlags: 0

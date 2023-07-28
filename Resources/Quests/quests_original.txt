@@ -1,0 +1,4 @@
+vanilka:-1 0 1 2
+korenie: -1 0 1 2 3
+stred: -2 -1 0 1 2 3
+juh: -1 0 1 2 3

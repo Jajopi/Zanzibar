@@ -7,7 +7,6 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     Logic logic;
-    bool placingMode = false;
     int createdFigures = 0;
     public int figureCount = 5;
     public int playerCount = 3;
@@ -76,6 +75,7 @@ public class Board : MonoBehaviour
     }
 
     public List<Figure> GetAllFigures() { return figures; }
+    public List<Node> GetAllNodes() { return nodes; }
 
     Node GetNodeByTitle(string title)
     {
@@ -138,34 +138,6 @@ public class Board : MonoBehaviour
             {
                 PlaceFigure(playerNames[i], j + 2, null);
             }
-        }
-    }
-
-    void PlaceNextFigure(Node node)
-    {
-        switch (figures.Count)
-        {
-            case 0:
-                PlaceFigure("druzinka1", 2, node);
-                break;
-            case 1:
-                PlaceFigure("druzinka1", 5, node);
-                break;
-            case 2:
-                PlaceFigure("druzinka2", 3, node);
-                break;
-            case 3:
-                PlaceFigure("druzinka2", 5, node);
-                break;
-            case 4:
-                PlaceFigure("druzinka3", 2, node);
-                break;
-            case 5:
-                PlaceFigure("druzinka3", 6, node);
-                break;
-            default:
-                placingMode = false;
-                break;
         }
     }
 
@@ -294,13 +266,6 @@ public class Board : MonoBehaviour
 
     public void OnNodeClick(Node node)
     {
-        if (placingMode)
-        {
-            PlaceNextFigure(node);
-        }
-        else
-        {
-            logic.OnNodeClick(node);
-        }
+        logic.OnNodeClick(node);
     }
 }

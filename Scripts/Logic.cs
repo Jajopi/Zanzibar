@@ -7,6 +7,8 @@ using TMPro;
 
 public class Logic : MonoBehaviour
 {
+    Board board;
+
     int state;
     int stepsLeft;
     List<string> playerNames;
@@ -17,7 +19,7 @@ public class Logic : MonoBehaviour
     Node targetNode;
     // select: selectedFigure --then-- targetFigure --then-- targetNode
 
-    int movesPerPlayer = 2;
+    public int movesPerPlayer = 3;
 
     public GameObject scoreBoard;
     public int defaultPoints = 10;
@@ -34,6 +36,10 @@ public class Logic : MonoBehaviour
          */
 
         movedFigures = new List<Figure>();
+
+        board = GameObject.Find("Board").GetComponent<Board>();
+
+        UpdatePoints();
     }
 
     void Update()
@@ -219,28 +225,27 @@ public class Logic : MonoBehaviour
         }
     }
 
-    void ActivateQuest(List<Figure> figures, List<int> points,
-        string resource, string location)
+    public void ActivateQuest(List<int> points, string task)
     {
+        List<Figure> figures = board.GetAllFigures();
+
         int count = 0;
         foreach (Figure figure in figures)
         {
             if (figure.GetOwner() == playerNames[actualPlayer])
             {
-                if (resource is not null &&
-                    resource == figure.GetNode().GetResource())
+                if (task == figure.GetNode().GetResource())
                 {
                     count++;
                 }
-                else if (location is not null &&
-                    location == figure.GetNode().GetLocation())
+                else if (task == figure.GetNode().GetLocation())
                 {
                     count++;
                 }
             }
         }
 
-        playerPoints[actualPlayer] += points[count];
+        playerPoints[actualPlayer] += points[Mathf.Min(count, points.Count - 1)];
         if (playerPoints[actualPlayer] < 0)
         {
             playerPoints[actualPlayer] = 0;
@@ -279,5 +284,10 @@ public class Logic : MonoBehaviour
             movedFigures.Add(figure);
         }
         stepsLeft--;
+    }
+
+    public string GetActualPlayer()
+    {
+        return playerNames[actualPlayer];
     }
 }

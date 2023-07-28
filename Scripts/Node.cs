@@ -15,6 +15,10 @@ public class Node : MonoBehaviour
 
     Material sprite;
 
+    float resizeSpeed = 4f;
+    Vector3 startingScale;
+    float targetScaleMultiply = 1f;
+
     public void Set(string _resource, string _location, string colorString,
         Pair<float, float> coordinates)
     {
@@ -29,6 +33,25 @@ public class Node : MonoBehaviour
         SetColor(colorString);
     }
 
+    void Start()
+    {
+        startingScale = transform.localScale;
+    }
+
+    void Update()
+    {
+        ResizeSelected();
+    }
+
+    void ResizeSelected()
+    {
+        if (transform.localScale.x != targetScaleMultiply)
+        {
+            transform.localScale = Vector3.Lerp(
+                transform.localScale, startingScale * targetScaleMultiply,
+                resizeSpeed * Time.deltaTime);
+        }
+    }
 
     public bool IsOccupied() { return occupied; }
 
@@ -106,6 +129,16 @@ public class Node : MonoBehaviour
     {
         transform.localPosition = new Vector3(
             coordinates.First, 2, coordinates.Second);
+    }
+
+    public void SetSelected()
+    {
+        targetScaleMultiply = 1.5f;
+    }
+
+    public void SetUnselected()
+    {
+        targetScaleMultiply = 1f;
     }
 
     public void OnMouseDown()
