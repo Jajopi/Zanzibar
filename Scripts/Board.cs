@@ -29,8 +29,6 @@ public class Board : MonoBehaviour
     Color32 edgeColor = Color.red;
     string defaultColorName = "ffffff";
 
-    public float minutesPerDay = 2;
-
     void Start()
     {
         LoadPrefabs();

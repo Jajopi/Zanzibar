@@ -6,13 +6,13 @@ public class LightScript : MonoBehaviour
 {
     Light daylight, moonlight;
 
-    float minutesPerDay;
+    float secondsPerDay;
 
     void Start()
     {
         daylight = GameObject.Find("Daylight").GetComponent<Light>();
         moonlight = GameObject.Find("Moonlight").GetComponent<Light>();
-        minutesPerDay = GameObject.Find("Board").GetComponent<Board>().minutesPerDay;
+        secondsPerDay = GameObject.Find("Board").GetComponent<Logic>().turnDurationSeconds;
     }
 
     void Update()
@@ -24,11 +24,11 @@ public class LightScript : MonoBehaviour
     void Rotate()
     {
         daylight.transform.Rotate(new Vector3(0,
-            360 / (60 * minutesPerDay) * Time.deltaTime,
+            360 / (secondsPerDay) * Time.deltaTime,
             0));
 
         moonlight.transform.Rotate(new Vector3(0,
-            360 / (60 * minutesPerDay) * Time.deltaTime,
+            360 / (secondsPerDay) * Time.deltaTime,
             0));
     }
 

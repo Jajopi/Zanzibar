@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 using Random = UnityEngine.Random;
 
@@ -26,17 +28,22 @@ public class Quests : MonoBehaviour
 
     public string questFileName;
 
+    TextMeshProUGUI remainingTimeText;
+
     void Start()
     {
         logic = GameObject.Find("Board").GetComponent<Logic>();
         board = GameObject.Find("Board").GetComponent<Board>();
         noQuest = CreateQuest(new List<int>(), emptyQuestString, "");
         LoadQuestStrings(questFileName);
+        remainingTimeText = transform.Find("RemainingTimeText"
+            ).gameObject.GetComponent<TextMeshProUGUI>();
     }
 
     void Update()
     {
         UpdateQuests();
+        UpdateTime();
     }
 
     void UpdateQuests()
@@ -48,20 +55,23 @@ public class Quests : MonoBehaviour
             visibleQuest = null;
         }
 
+        bool activate = Input.GetKeyDown(KeyCode.Return);
+        bool replace = Input.GetKeyDown(KeyCode.N) &&
+            (Input.GetKey(KeyCode.RightShift) ||
+            Input.GetKey(KeyCode.LeftShift)) &&
+            !activate;
+
         int number = -1;
         if (Input.GetKey(KeyCode.Alpha1)) { number = 1; }
         else if (Input.GetKey(KeyCode.Alpha2)) { number = 2; }
         else if (Input.GetKey(KeyCode.Alpha3)) { number = 3; }
         if (number < 0)
         {
-            if (Input.GetKeyDown(KeyCode.N)) {
+            if (replace) {
                 TryAddNewQuest();
             }
             return;
         }
-
-        bool activate = Input.GetKeyDown(KeyCode.Return);
-        bool replace = Input.GetKeyDown(KeyCode.N) && !activate;
 
         visibleQuest = null;
         int index = 0;
@@ -80,19 +90,27 @@ public class Quests : MonoBehaviour
         }
         if (visibleQuest is not null)
         {
-            if (activate)
+            if (activate && !logic.GetJumpingTurn())
             {
                 logic.ActivateQuest(visibleQuest.GetPoints(),
                         visibleQuest.GetTask());
                 quests.Remove(visibleQuest);
+                Destroy(visibleQuest.gameObject);
+                visibleQuest = null;
             }
             else if (replace)
             {
+                Destroy(quests[index].gameObject);
                 quests[index] = CreateRandomQuest(GetActualPlayer());
                 visibleQuest = quests[index];
             }
-            visibleQuest.SetVisible();
-            SelectNodes();
+
+            if (visibleQuest is not null)
+            {
+                visibleQuest.SetVisible();
+                SelectNodes();
+            }
+
         }
         else
         {
@@ -118,6 +136,21 @@ public class Quests : MonoBehaviour
         }
 
         quests.Add(CreateRandomQuest(actualPlayer));
+    }
+
+    public void AddQuestInsecure(Quest quest)
+    {
+        quests.Add(quest);
+    }
+
+    public void DestroyAllQuests()
+    {
+        while (quests.Count > 0)
+        {
+            Quest quest = quests[0];
+            quests.RemoveAt(0);
+            Destroy(quest.gameObject);
+        }
     }
 
     void SelectNodes()
@@ -182,7 +215,7 @@ public class Quests : MonoBehaviour
     public Quest CreateQuest(List<int> _points, string task, string playerName)
     {
         GameObject questObject = Instantiate(questPrefab, this.transform, false);
-        questObject.name = "Quest-" + playerName + questIndex++.ToString();
+        questObject.name = "Quest-" + playerName + "-" + questIndex++.ToString();
         questObject.AddComponent<Quest>();
 
         Quest quest = questObject.GetComponent<Quest>();
@@ -198,26 +231,37 @@ public class Quests : MonoBehaviour
     {
         int index = Random.Range(0, tasks.Count - 1);
 
-        Quest newQuest = CreateQuest(points[index], tasks[index], _playerName);
-        while (!TestQuestNotDuplicate(newQuest))
+        while (!TestQuestNotDuplicate(_playerName, tasks[index]))
         {
             index = (index + 1) % tasks.Count;
-            newQuest = CreateQuest(points[index], tasks[index], _playerName);
         }
 
+        Quest newQuest = CreateQuest(points[index], tasks[index], _playerName);
         return newQuest;
     }
 
-    bool TestQuestNotDuplicate(Quest quest)
+    bool TestQuestNotDuplicate(string player, string task)
     {
         foreach (Quest q in quests)
         {
-            if (q.GetTask() == quest.GetTask() &&
-                q.GetPlayer() == quest.GetPlayer())
+            if (q.GetTask() == task &&
+                q.GetPlayer() == player)
             {
                 return false;
             }
         }
         return true;
+    }
+
+    void UpdateTime()
+    {
+        float remainingTime = logic.GetRemainingTime();
+        remainingTimeText.text = logic.GetActualPlayer() + ": \n"
+            + remainingTime.ToString().Split(",")[0];
+    }
+
+    public List<Quest> GetAllQuests()
+    {
+        return quests;
     }
 }

@@ -20,9 +20,13 @@ public class Logic : MonoBehaviour
     // select: selectedFigure --then-- targetFigure --then-- targetNode
 
     public int movesPerPlayer = 3;
+    bool jumpingTurn = false;
 
     public GameObject scoreBoard;
     public int defaultPoints = 10;
+
+    float remainingTime;
+    public float turnDurationSeconds = 120f;
 
     void Start()
     {
@@ -40,16 +44,29 @@ public class Logic : MonoBehaviour
         board = GameObject.Find("Board").GetComponent<Board>();
 
         UpdatePoints();
+
+        remainingTime = turnDurationSeconds;
     }
 
     void Update()
     {
-        if (state == 4)
+        remainingTime -= Time.deltaTime;
+        if (remainingTime < 0)
         {
-            UpdatePoints();
-            GoToState(0);
+            remainingTime += turnDurationSeconds;
+            PassNextTurn();
+        }
+
+        CheckSavesClearLoad();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) &&
+            Input.GetKey(KeyCode.RightShift))
+        {
+            remainingTime = 1f;
         }
     }
+
+    public float GetRemainingTime() { return remainingTime; }
 
     public void SetPlayers(List<string> names)
     {
@@ -72,15 +89,13 @@ public class Logic : MonoBehaviour
 
     void GoToState(int _state)
     {
-        //Debug.Log(state.ToString() + " " + _state.ToString());
         state = _state;
         if (state == 0)
         {
             UnSelect(selectedFigure);
             UnSelect(targetFigure);
-
-            //Debug.Log(movesPerPlayer.ToString() + " " + movedFigures.Count.ToString());
-            if (movesPerPlayer == movedFigures.Count) {
+            if (movesPerPlayer == movedFigures.Count)
+            {
                 GoToState(4);
             }
         }
@@ -102,26 +117,35 @@ public class Logic : MonoBehaviour
         }
         else if (state == 4)
         {
-            movedFigures.Clear();
-
-            actualPlayer++;
-            if (actualPlayer >= playerNames.Count)
-            {
-                actualPlayer = 0;
-            }
+            // Do nothing and wait
         }
+    }
+
+    void PassNextTurn()
+    {
+        SaveState();
+
+        movedFigures.Clear();
+        jumpingTurn = false;
+
+        actualPlayer++;
+        if (actualPlayer >= playerNames.Count)
+        {
+            actualPlayer = 0;
+        }
+
+        GoToState(0);
     }
 
     public void OnNodeClick(Node node)
     {
-        //Debug.Log(node.name + " " + state.ToString());
         if (state == 0)
         {
             figure = node.GetFigure();
             if (figure is null) { return; }
-            //Debug.Log(figure.GetOwner() + " " + playerNames[actualPlayer]);
             if (figure.GetOwner() != playerNames[actualPlayer]) { return; }
             if (movedFigures.Contains(figure)) { return; }
+
             stepsLeft = figure.GetSpeed();
             selectedFigure = figure;
             GoToState(1);
@@ -140,13 +164,16 @@ public class Logic : MonoBehaviour
                     found = true; break;
                 }
             }
-            if (!found && !selectedFigure.GetNode().IsUnconnected()) { return; }
+            if (!found && !selectedFigure.GetNode().IsUnconnected() &&
+                !node.IsUnconnected()) { return; }
 
             if (node.GetFigure() is null)
             {
-                if (selectedFigure.GetNode().IsUnconnected())
+                if (selectedFigure.GetNode().IsUnconnected()
+                    || node.IsUnconnected())
                 {
                     stepsLeft = 1;
+                    jumpingTurn = true;
                 }
                 MoveFigure(selectedFigure, node);
                 GoToState(1);
@@ -289,5 +316,132 @@ public class Logic : MonoBehaviour
     public string GetActualPlayer()
     {
         return playerNames[actualPlayer];
+    }
+
+    public bool GetJumpingTurn()
+    {
+        return jumpingTurn;
+    }
+
+
+    void CheckSavesClearLoad()
+    {
+        if (Input.GetKey(KeyCode.Delete) &&
+            Input.GetKey(KeyCode.O) &&
+            Input.GetKey(KeyCode.C))
+        {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+        }
+        if (Input.GetKey(KeyCode.L) &&
+            Input.GetKey(KeyCode.O) &&
+            Input.GetKey(KeyCode.C))
+        {
+            if (PlayerPrefs.HasKey("timestamp"))
+            {
+                LoadState();
+            }
+        }
+    }
+
+    void SaveState()
+    {
+        PlayerPrefs.SetFloat("timestamp", Time.time);
+        PlayerPrefs.SetInt("playerCount", playerNames.Count);
+        PlayerPrefs.SetInt("actualPlayer", actualPlayer);
+        for (int i = 0; i < playerNames.Count; i++)
+        {
+            string number = i.ToString();
+            PlayerPrefs.SetString("playerName" + number, playerNames[i]);
+            PlayerPrefs.SetInt("playerPoints" + number, playerPoints[i]);
+        }
+
+        string figures = "";
+        foreach (Figure figure in board.GetAllFigures())
+        {
+            PlayerPrefs.SetString("figure" + figure.name,
+                figure.GetNode().name);
+            if (figures.Length > 0) { figures += ";"; }
+            figures += figure.name;
+        }
+
+        figures = "";
+        foreach (Figure figure in movedFigures)
+        {
+            if (figures.Length > 0) { figures += ";"; }
+            figures += figure.name;
+        }
+        PlayerPrefs.SetString("movedFigureNames", figures);
+
+        string quests = "";
+        foreach (Quest quest in GameObject.Find("Canvas").GetComponent<Quests>(
+            ).GetAllQuests())
+        {
+            if (quests.Length > 0) { quests += ";"; }
+            quests += quest.GetPlayer() + "!" +
+                quest.GetTask() + "!" +
+                string.Join(",", quest.GetPoints().ToArray());
+        }
+        PlayerPrefs.SetString("activeQuests", quests);
+
+        PlayerPrefs.Save();
+    }
+
+    void LoadState()
+    {
+        int playerCount = PlayerPrefs.GetInt("playerCount");
+        actualPlayer = PlayerPrefs.GetInt("actualPlayer");
+        remainingTime = turnDurationSeconds;
+
+        playerNames = new List<string>();
+        playerPoints = new List<int>();
+        for (int i = 0; i < playerCount; i++)
+        {
+            string number = i.ToString();
+            playerNames.Add(PlayerPrefs.GetString("playerName" + number));
+            playerPoints.Add(PlayerPrefs.GetInt("playerName" + number));
+        }
+
+        string figures = PlayerPrefs.GetString("figureNames");
+        foreach (string figureName in figures.Split(";"))
+        {
+            GameObject.Find(figureName).GetComponent<Figure>().SetNode(
+                GameObject.Find(
+                    PlayerPrefs.GetString("figure" + figureName)
+                    ).GetComponent<Node>()
+                );
+        }
+
+        movedFigures = new List<Figure>();
+        figures = PlayerPrefs.GetString("movedFigureNames");
+        foreach (string figureName in figures.Split(";"))
+        {
+            movedFigures.Add(
+                GameObject.Find(figureName).GetComponent<Figure>()
+                );
+        }
+        if (movesPerPlayer == movedFigures.Count)
+        {
+            GoToState(4);
+        }
+
+        Quests quests = GameObject.Find("Canvas").GetComponent<Quests>();
+
+        quests.DestroyAllQuests();
+        string questsString = PlayerPrefs.GetString("activeQuests");
+        if (questsString.Length > 0)
+        {
+            foreach (string questString in questsString.Split(";"))
+            {
+                string[] splitString = questString.Split("!");
+                List<int> points = new List<int>();
+                foreach (string p in splitString[2].Split(","))
+                {
+                    points.Add(int.Parse(p));
+                }
+                quests.AddQuestInsecure(quests.CreateQuest(
+                    points, splitString[1], splitString[0]));
+            }
+        }
     }
 }
