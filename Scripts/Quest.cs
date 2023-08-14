@@ -67,6 +67,6 @@ public class Quest : MonoBehaviour
             text += string.Join(", ", points.Select(x => x.ToString()).ToArray());
             //Debug.Log(text);
         }
-        gameObject.GetComponent<TextMeshProUGUI>().text = text;
+        gameObject.GetComponent<TextMeshProUGUI>().text = text.Replace("_", " ");
     }
 }

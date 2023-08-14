@@ -1,118 +1,118 @@
-Juh_skorica skorica juh purple -10 -2
-Juh_zazvor zazvor juh black -8 -4
-Juh_vanilkaJ vanilka juh red -8 0
-Juh_vanilkaS vanilka juh red -6 2
-Juh_klincek klincek juh yellow -6 -4
-Juh_prazdny - juh white -6 -2
+ma_suno_pini_kiwen_kule kiwen_kule ma_suno_pini purple -8 1
+ma_suno_pini_kiwen_kasi kiwen_kasi ma_suno_pini green -8 -4
+ma_suno_pini_moku_soweliJ moku_soweli ma_suno_pini red -8 -2
+ma_suno_pini_moku_soweliS moku_soweli ma_suno_pini red -6 0
+ma_suno_pini_pan_jelo pan_jelo ma_suno_pini yellow -6 -4
+ma_suno_pini_prazdny - ma_suno_pini white -6 -2
 
-Stred_korenieV korenie stred orange -4 -2
-Stred_korenieZ korenie stred orange 0 6
-Stred_skorica skorica stred purple -2 0
-Stred_klincek klincek stred yellow -2 -4
-Stred_prazdnyZ - stred white -4 6
-Stred_prazdnyV - stred white -4 2
+ma_insa_len_soweliV len_soweli ma_insa orange -4 -2
+ma_insa_len_soweliZ len_soweli ma_insa orange 0 5
+ma_insa_kiwen_kule kiwen_kule ma_insa purple -2 0
+ma_insa_pan_jelo pan_jelo ma_insa yellow -2 -4
+ma_insa_prazdnyZ - ma_insa white -4 4
+ma_insa_prazdnyV - ma_insa white -4 1
 
-Zapad_skorica skorica zapad purple 4 4
-Zapad_klincek klincek zapad yellow 2 4
-Zapad_korenie korenie zapad orange 2 2
-Zapad_vanilka vanilka zapad red 6 6
-Zapad_prazdnyV - zapad white 0 0
-Zapad_prazdnyZ - zapad white 0 2
+ma_lete_kiwen_kule kiwen_kule ma_lete purple 4 2
+ma_lete_pan_jelo pan_jelo ma_lete yellow 2 2
+ma_lete_len_soweli len_soweli ma_lete orange 2 0
+ma_lete_moku_soweli moku_soweli ma_lete red 4 5
+ma_lete_prazdnyV - ma_lete white 0 -1
+ma_lete_prazdnyZ - ma_lete white 0 1
 
-Vychod_zazvor zazvor vychod black 2 0
-Vychod_skorica skorica vychod purple 2 -2
-Vychod_klincek klincek vychod yellow 0 -2
-Vychod_korenie korenie vychod orange 4 -2
-Vychod_prazdny - vychod white 4 0
+ma_seli_kiwen_kasi kiwen_kasi ma_seli green 2 -2
+ma_seli_kiwen_kule kiwen_kule ma_seli purple 2 -4
+ma_seli_pan_jelo pan_jelo ma_seli yellow 0 -4
+ma_seli_len_soweli len_soweli ma_seli orange 4 -2
+ma_seli_prazdny - ma_seli white 4 0
 
-Sever_klincek klincek sever yellow 10 -2
-Sever_prazdny - sever white 6 -2
-Sever_vanilka vanilka sever red 6 2
-Sever_zazvorV zazvor sever black 8 0
-Sever_zazvorZ zazvor sever black 8 4
+ma_suno_open_pan_jelo pan_jelo ma_suno_open yellow 10 -2
+ma_suno_open_prazdny - ma_suno_open white 6 -2
+ma_suno_open_moku_soweli moku_soweli ma_suno_open red 6 2
+ma_suno_open_kiwen_kasiV kiwen_kasi ma_suno_open green 8 0
+ma_suno_open_kiwen_kasiZ kiwen_kasi ma_suno_open green 8 4
 
-# cislovane od juhu
-Ocean_Z1 - - blue -10 4
+# cislovane od ma_suno_piniu
+Ocean_Z1 - - blue -8 4
 Ocean_Z2 - - blue -6 6
 Ocean_Z3 - - blue -2 8
 Ocean_Z4 - - blue 2 8
-Ocean_Z5 - - blue 4 8
+Ocean_Z5 - - blue 5 8
 Ocean_Z6 - - blue 8 8
 Ocean_Z7 - - blue 10 6
-Ocean_V1 - - blue -6 -6
+Ocean_V1 - - blue -7 -6
 Ocean_V2 - - blue -4 -6
 Ocean_V3 - - blue 0 -6
 
 
-Juh_skorica Juh_vanilkaJ
-Juh_vanilkaJ Juh_vanilkaS
-Juh_vanilkaJ Juh_zazvor
-Juh_vanilkaJ Juh_klincek
-Juh_vanilkaS Juh_prazdny
-Juh_prazdny Juh_klincek
-Juh_klincek Juh_zazvor
+ma_suno_pini_kiwen_kule ma_suno_pini_moku_soweliJ
+ma_suno_pini_moku_soweliJ ma_suno_pini_moku_soweliS
+ma_suno_pini_moku_soweliJ ma_suno_pini_kiwen_kasi
+ma_suno_pini_moku_soweliJ ma_suno_pini_pan_jelo
+ma_suno_pini_moku_soweliS ma_suno_pini_prazdny
+ma_suno_pini_prazdny ma_suno_pini_pan_jelo
+ma_suno_pini_pan_jelo ma_suno_pini_kiwen_kasi
 
-Stred_prazdnyV Juh_vanilkaS
-Stred_prazdnyZ Juh_vanilkaS
-Stred_korenieV Juh_prazdny
+ma_insa_prazdnyV ma_suno_pini_moku_soweliS
+ma_insa_prazdnyZ ma_suno_pini_moku_soweliS
+ma_insa_len_soweliV ma_suno_pini_prazdny
 
-Stred_klincek Stred_korenieV
-Stred_klincek Stred_skorica
-Stred_korenieV Stred_skorica
-Stred_korenieV Stred_prazdnyV
-Stred_skorica Stred_prazdnyV
-Stred_skorica Stred_korenieZ
-Stred_prazdnyV Stred_prazdnyZ
-Stred_korenieZ Stred_prazdnyZ
+ma_insa_pan_jelo ma_insa_len_soweliV
+ma_insa_pan_jelo ma_insa_kiwen_kule
+ma_insa_len_soweliV ma_insa_kiwen_kule
+ma_insa_len_soweliV ma_insa_prazdnyV
+ma_insa_kiwen_kule ma_insa_prazdnyV
+ma_insa_kiwen_kule ma_insa_len_soweliZ
+ma_insa_prazdnyV ma_insa_prazdnyZ
+ma_insa_len_soweliZ ma_insa_prazdnyZ
 
-Zapad_vanilka Stred_korenieZ
-Zapad_prazdnyZ Stred_skorica
-Zapad_prazdnyV Stred_klincek
+ma_lete_moku_soweli ma_insa_len_soweliZ
+ma_lete_prazdnyZ ma_insa_kiwen_kule
+ma_lete_prazdnyV ma_insa_pan_jelo
 
-Zapad_prazdnyV Zapad_prazdnyZ
-Zapad_prazdnyV Zapad_korenie
-Zapad_prazdnyZ Zapad_klincek
-Zapad_klincek Zapad_korenie
-Zapad_klincek Zapad_skorica
-Zapad_klincek Zapad_vanilka
-Zapad_vanilka Zapad_skorica
+ma_lete_prazdnyV ma_lete_prazdnyZ
+ma_lete_prazdnyV ma_lete_len_soweli
+ma_lete_prazdnyZ ma_lete_pan_jelo
+ma_lete_pan_jelo ma_lete_len_soweli
+ma_lete_pan_jelo ma_lete_kiwen_kule
+ma_lete_pan_jelo ma_lete_moku_soweli
+ma_lete_moku_soweli ma_lete_kiwen_kule
 
-Vychod_prazdny Zapad_korenie
+ma_seli_prazdny ma_lete_len_soweli
 
-Vychod_klincek Vychod_skorica
-Vychod_klincek Vychod_zazvor
-Vychod_skorica Vychod_korenie
-Vychod_korenie Vychod_zazvor
-Vychod_zazvor Vychod_prazdny
+ma_seli_pan_jelo ma_seli_kiwen_kule
+ma_seli_pan_jelo ma_seli_kiwen_kasi
+ma_seli_kiwen_kule ma_seli_len_soweli
+ma_seli_len_soweli ma_seli_kiwen_kasi
+ma_seli_kiwen_kasi ma_seli_prazdny
 
-Sever_prazdny Vychod_korenie
-Sever_vanilka Vychod_prazdny
-Sever_vanilka Zapad_skorica
+ma_suno_open_prazdny ma_seli_len_soweli
+ma_suno_open_moku_soweli ma_seli_prazdny
+ma_suno_open_moku_soweli ma_lete_kiwen_kule
 
-Sever_prazdny Sever_vanilka
-Sever_prazdny Sever_zazvorV
-Sever_prazdny Sever_klincek
-Sever_vanilka Sever_zazvorZ
-Sever_zazvorZ Sever_zazvorV
-Sever_zazvorV Sever_klincek
+ma_suno_open_prazdny ma_suno_open_moku_soweli
+ma_suno_open_prazdny ma_suno_open_kiwen_kasiV
+ma_suno_open_prazdny ma_suno_open_pan_jelo
+ma_suno_open_moku_soweli ma_suno_open_kiwen_kasiZ
+ma_suno_open_kiwen_kasiZ ma_suno_open_kiwen_kasiV
+ma_suno_open_kiwen_kasiV ma_suno_open_pan_jelo
 
-Ocean_Z1 Juh_skorica
+Ocean_Z1 ma_suno_pini_kiwen_kule
 Ocean_Z1 Ocean_Z2
 Ocean_Z2 Ocean_Z3
-Ocean_Z3 Stred_prazdnyZ
+Ocean_Z3 ma_insa_prazdnyZ
 Ocean_Z3 Ocean_Z4
 Ocean_Z4 Ocean_Z5
-Ocean_Z5 Zapad_vanilka
+Ocean_Z5 ma_lete_moku_soweli
 Ocean_Z5 Ocean_Z6
 Ocean_Z6 Ocean_Z7
-Ocean_Z7 Sever_vanilka
-Ocean_Z7 Sever_zazvorZ
-Ocean_Z7 Sever_klincek
-Ocean_V1 Juh_zazvor
+Ocean_Z6 ma_suno_open_moku_soweli
+Ocean_Z7 ma_suno_open_kiwen_kasiZ
+Ocean_Z7 ma_suno_open_pan_jelo
+Ocean_V1 ma_suno_pini_kiwen_kasi
 Ocean_V1 Ocean_V2
-Ocean_V2 Juh_klincek
-Ocean_V2 Stred_klincek
+Ocean_V2 ma_suno_pini_pan_jelo
+Ocean_V2 ma_insa_pan_jelo
 Ocean_V2 Ocean_V3
-Ocean_V3 Stred_klincek
-Ocean_V3 Vychod_klincek
-Ocean_V3 Vychod_skorica
+Ocean_V3 ma_insa_pan_jelo
+Ocean_V3 ma_seli_pan_jelo
+Ocean_V3 ma_seli_kiwen_kule

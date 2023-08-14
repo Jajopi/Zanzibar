@@ -28,12 +28,18 @@ public class Logic : MonoBehaviour
     float remainingTime;
     public float turnDurationSeconds = 120f;
 
+    /*
+     * Delete + O + C - maze ulozené data (netreba robit)
+     * Oba shifty + Delete - preskakuje kolo (dava cas 1s do konca)
+     * L + O + C - nacitava posledne ulozene udaje (koniec miniuleho kola)
+     */
+
     void Start()
     {
         state = 0;
         /*  Meaning of states:
          *  0: "waitForFigureToChoose" -> 1
-         *  1: "waitForPlaceToMove" -> 1 / 2 / 3
+         *  1: "waitForPlaceToMove" -> 0 / 1 / 2 / 3
          *  2: "waitForPlaceToPush" -> 1 / 0
          *  3: "waitForPlaceToYeet" -> 1 / 0
          *  4: "waitForTimer"
@@ -59,8 +65,9 @@ public class Logic : MonoBehaviour
 
         CheckSavesClearLoad();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) &&
-            Input.GetKey(KeyCode.RightShift))
+        if (Input.GetKey(KeyCode.LeftShift) &&
+            Input.GetKey(KeyCode.RightShift) &&
+            Input.GetKeyDown(KeyCode.Delete))
         {
             remainingTime = 1f;
         }
@@ -180,7 +187,8 @@ public class Logic : MonoBehaviour
             }
             else
             {
-                if (selectedFigure.GetNode().IsUnconnected()) { return; }
+                if (selectedFigure.GetNode().IsUnconnected() ||
+                    node.IsUnconnected()) { return; }
                 figure = node.GetFigure();
 
                 if (figure.GetOwner() == selectedFigure.GetOwner()) { return; }
@@ -243,7 +251,7 @@ public class Logic : MonoBehaviour
             if (node.GetFigure() == targetFigure) { GoToState(1); }
 
             targetNode = node;
-            if (targetNode.IsOccupied()) { return; }
+            if (targetNode.IsOccupied() || targetNode.IsUnconnected()) { return; }
 
             Node lastNode = targetFigure.GetNode();
             targetFigure.MoveToNode(targetNode);
@@ -286,7 +294,8 @@ public class Logic : MonoBehaviour
         string text = "";
         for (int i = 0; i < playerNames.Count; i++)
         {
-            text += playerNames[i] + ": " + playerPoints[i].ToString() + spaces;
+            text += playerNames[i].Replace("_", " ") +
+                ": " + playerPoints[i].ToString() + spaces;
         }
         scoreBoard.GetComponent<TextMeshProUGUI>().text = text;
     }
@@ -335,7 +344,7 @@ public class Logic : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.L) &&
             Input.GetKey(KeyCode.O) &&
-            Input.GetKey(KeyCode.C))
+            Input.GetKeyDown(KeyCode.C))
         {
             if (PlayerPrefs.HasKey("timestamp"))
             {
@@ -384,6 +393,10 @@ public class Logic : MonoBehaviour
         }
         PlayerPrefs.SetString("activeQuests", quests);
 
+        int jumpingTurnInt = 0;
+        if (GetJumpingTurn()) { jumpingTurnInt = 1; }
+        PlayerPrefs.SetInt("jumpingTurn", jumpingTurnInt);
+
         PlayerPrefs.Save();
     }
 
@@ -405,20 +418,23 @@ public class Logic : MonoBehaviour
         string figures = PlayerPrefs.GetString("figureNames");
         foreach (string figureName in figures.Split(";"))
         {
-            GameObject.Find(figureName).GetComponent<Figure>().SetNode(
-                GameObject.Find(
-                    PlayerPrefs.GetString("figure" + figureName)
-                    ).GetComponent<Node>()
+            GameObject.Find(PlayerPrefs.GetString("figure" + figureName)
+                    ).GetComponent<Node>().PlaceFigure(
+                GameObject.Find(figureName).GetComponent<Figure>()
                 );
         }
 
         movedFigures = new List<Figure>();
         figures = PlayerPrefs.GetString("movedFigureNames");
-        foreach (string figureName in figures.Split(";"))
+        //Debug.Log(figures.Length);
+        if (figures.Length > 0)
         {
-            movedFigures.Add(
-                GameObject.Find(figureName).GetComponent<Figure>()
-                );
+            foreach (string figureName in figures.Split(";"))
+            {
+                movedFigures.Add(
+                    GameObject.Find(figureName).GetComponent<Figure>()
+                    );
+            }
         }
         if (movesPerPlayer == movedFigures.Count)
         {
@@ -442,6 +458,11 @@ public class Logic : MonoBehaviour
                 quests.AddQuestInsecure(quests.CreateQuest(
                     points, splitString[1], splitString[0]));
             }
+        }
+
+        if (PlayerPrefs.GetInt("jumpingTurn") > 1)
+        {
+            jumpingTurn = true;
         }
     }
 }

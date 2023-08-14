@@ -76,7 +76,7 @@ public class Node : MonoBehaviour
 
     public void PlaceFigure(Figure _figure)
     {
-        if (occupied) throw new Exception("Already occupied: " + this.name);
+        if (occupied && figure != _figure) throw new Exception("Already occupied: " + this.name);
         figure = _figure;
         occupied = true;
 

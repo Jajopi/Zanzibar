@@ -256,8 +256,8 @@ public class Quests : MonoBehaviour
     void UpdateTime()
     {
         float remainingTime = logic.GetRemainingTime();
-        remainingTimeText.text = logic.GetActualPlayer() + ": \n"
-            + remainingTime.ToString().Split(",")[0];
+        remainingTimeText.text = logic.GetActualPlayer().Replace("_", " ") + ": \n"
+            + Mathf.Round(remainingTime);
     }
 
     public List<Quest> GetAllQuests()

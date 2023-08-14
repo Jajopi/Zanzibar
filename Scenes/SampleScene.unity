@@ -476,13 +476,13 @@ MonoBehaviour:
   nodes: []
   figures: []
   playerNames:
-  - druzinka1
-  - druzinka2
-  - druzinka3
+  - telo_nasa_seli
+  - palisa_kiwen
+  - nasa
   playerColors:
-  - blue
-  - red
+  - yellow
   - green
+  - blue
   emptyNode: {fileID: 2104943940863894096, guid: 43d4677efb55b8e4ab3cf54386b9b8b8, type: 3}
   emptyFigure: {fileID: 6323272003959987905, guid: 7ecd39b1e2ff21949b4cb01d43780289, type: 3}
 --- !u!4 &939486304
@@ -1008,7 +1008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 122, y: -50}
+  m_AnchoredPosition: {x: 122, y: -150}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1796413468
