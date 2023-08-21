@@ -17,8 +17,6 @@ public class CameraMovement : MonoBehaviour
     {
         directionUp = new Vector3(1, 0, 0);
         directionDown = new Vector3(-1, 0, 0);
-        //directionLeft = new Vector3(0, 0, 1);
-        //directionRight = new Vector3(0, 0, -1);
 
         directionAscend = new Vector3(0, 1, 0);
         directionDescend = new Vector3(0, -1, 0);
@@ -45,13 +43,6 @@ public class CameraMovement : MonoBehaviour
             {
                 keysPressed.Remove(k);
             }
-
-            /*if (Input.GetKeyUp(k)) { keysPressed.Remove(k); }
-            else if (Input.GetKeyDown(k)) { keysPressed.Add(k); }
-
-            else if (keysPressed.Contains(k) && !Input.GetKey(k)) {
-                keysPressed.Remove(k);
-            }*/
         }
 
         UpdateKey(KeyCode.W);
@@ -63,7 +54,7 @@ public class CameraMovement : MonoBehaviour
         UpdateKey(KeyCode.LeftArrow);
         UpdateKey(KeyCode.RightArrow);
         
-        UpdateKey(KeyCode.Space);
+        UpdateKey(KeyCode.R);
 
         UpdateKey(KeyCode.Q);
         UpdateKey(KeyCode.E);
@@ -102,7 +93,7 @@ public class CameraMovement : MonoBehaviour
             Translate(directionDescend);
         }
 
-        if (keysPressed.Contains(KeyCode.Space))
+        if (keysPressed.Contains(KeyCode.R))
         {
             transform.parent.position = new Vector3(0,
                 transform.parent.position.y, 0);

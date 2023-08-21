@@ -8,17 +8,17 @@ public class Board : MonoBehaviour
 {
     Logic logic;
     int createdFigures = 0;
-    public int figureCount = 5;
-    public int playerCount = 3;
+    int figureCount;
+    int playerCount;
     float figureMargin = 1f;
     float figureBenchX = 4f, figureBenchY = 2f;
 
     public string mapFileName;
 
-    public List<Node> nodes = new List<Node>();
-    public List<Figure> figures = new List<Figure>();
-    public string[] playerNames;
-    public string[] playerColors;
+    List<Node> nodes = new List<Node>();
+    List<Figure> figures = new List<Figure>();
+    List<string> playerNames = new List<string>();
+    string[] playerColors = new string[] {"red", "orange", "yellow", "green", "blue", "purple"};
 
     GameObject emptyLine;
     public GameObject emptyNode;
@@ -34,22 +34,23 @@ public class Board : MonoBehaviour
         LoadPrefabs();
 
         logic = transform.GetComponent<Logic>();
-        logic.SetPlayers(new List<string>(playerNames));
+
+        logic.StartFunction();
+        logic.LoadGame();
 
         if (mapFileName != "") { CreateFromFile(mapFileName); }
 
-        //Camera camera = GetComponentInChildren<Camera>();
-        //Camera camera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        //camera.orthographicSize *= transform.localScale.x;
-        //camera.transform.LookAt(transform.position);
-
-        PlaceAllFigures();
+        logic.LoadState();
     }
 
     void LoadPrefabs()
     {
         emptyLine = new GameObject();
     }
+
+    public void SetPlayerCount(int _playerCount) { playerCount = _playerCount; }
+    public void SetFigureCount(int _figureCount) { figureCount = _figureCount; }
+    public void SetPlayerNames(List<string> names) { playerNames = names; }
 
     public void CreateFromFile(string fileName)
     {
@@ -69,7 +70,6 @@ public class Board : MonoBehaviour
         }
         throw new Exception("No figure with owner and speed: "
             + owner + " " + speed.ToString());
-        //return null;
     }
 
     public List<Figure> GetAllFigures() { return figures; }
@@ -82,7 +82,6 @@ public class Board : MonoBehaviour
             if (node.name == title) { return node; }
         }
         throw new Exception("No node named: " + title);
-        //return null;
     }
 
     public Node AddNode(string title, string resource, string location,
@@ -128,7 +127,7 @@ public class Board : MonoBehaviour
         createdFigures++;
     }
 
-    void PlaceAllFigures()
+    public void PlaceAllFigures()
     {
         for (int i = 0; i < playerCount; i++)
         {
@@ -236,7 +235,7 @@ public class Board : MonoBehaviour
 
     public Color32 TranslateColor(string colorString)
     {
-        for (int i = 0; i < playerNames.Length; i++)
+        for (int i = 0; i < playerNames.Count; i++)
         {
             if (playerNames[i] == colorString)
             {

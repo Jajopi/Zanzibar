@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -30,11 +31,11 @@ public class Logic : MonoBehaviour
 
     /*
      * Delete + O + C - maze ulozené data (netreba robit)
-     * Oba shifty + Delete - preskakuje kolo (dava cas 1s do konca)
+     * Space + Enter - preskakuje kolo (dava cas 1s do konca)
      * L + O + C - nacitava posledne ulozene udaje (koniec miniuleho kola)
      */
 
-    void Start()
+    public void StartFunction()
     {
         state = 0;
         /*  Meaning of states:
@@ -46,11 +47,7 @@ public class Logic : MonoBehaviour
          */
 
         movedFigures = new List<Figure>();
-
         board = GameObject.Find("Board").GetComponent<Board>();
-
-        UpdatePoints();
-
         remainingTime = turnDurationSeconds;
     }
 
@@ -63,11 +60,10 @@ public class Logic : MonoBehaviour
             PassNextTurn();
         }
 
-        CheckSavesClearLoad();
+        CheckSavesClearLoadBack();
 
-        if (Input.GetKey(KeyCode.LeftShift) &&
-            Input.GetKey(KeyCode.RightShift) &&
-            Input.GetKeyDown(KeyCode.Delete))
+        if (Input.GetKey(KeyCode.Space) &&
+            Input.GetKeyDown(KeyCode.Return))
         {
             remainingTime = 1f;
         }
@@ -75,7 +71,7 @@ public class Logic : MonoBehaviour
 
     public float GetRemainingTime() { return remainingTime; }
 
-    public void SetPlayers(List<string> names)
+    void SetPlayers(List<string> names)
     {
         playerNames = names;
         playerPoints = new List<int>(new int[playerNames.Count]);
@@ -333,8 +329,13 @@ public class Logic : MonoBehaviour
     }
 
 
-    void CheckSavesClearLoad()
+    void CheckSavesClearLoadBack()
     {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SaveState();
+            SceneManager.LoadScene("MenuScene");
+        }
         if (Input.GetKey(KeyCode.Delete) &&
             Input.GetKey(KeyCode.O) &&
             Input.GetKey(KeyCode.C))
@@ -373,6 +374,7 @@ public class Logic : MonoBehaviour
             if (figures.Length > 0) { figures += ";"; }
             figures += figure.name;
         }
+        PlayerPrefs.SetString("figureNames", figures);
 
         figures = "";
         foreach (Figure figure in movedFigures)
@@ -400,11 +402,11 @@ public class Logic : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    void LoadState()
+    public void LoadGame()
     {
         int playerCount = PlayerPrefs.GetInt("playerCount");
-        actualPlayer = PlayerPrefs.GetInt("actualPlayer");
-        remainingTime = turnDurationSeconds;
+        board.SetPlayerCount(playerCount);
+        board.SetFigureCount(PlayerPrefs.GetInt("figuresPerPlayer"));
 
         playerNames = new List<string>();
         playerPoints = new List<int>();
@@ -414,6 +416,19 @@ public class Logic : MonoBehaviour
             playerNames.Add(PlayerPrefs.GetString("playerName" + number));
             playerPoints.Add(PlayerPrefs.GetInt("playerName" + number));
         }
+        SetPlayers(playerNames);
+        board.SetPlayerNames(playerNames);
+        board.PlaceAllFigures();
+        UpdatePoints();
+    }
+
+    public void LoadState()
+    {
+        if (PlayerPrefs.GetString("newGameOrContinue") == "newGame") { return; }
+
+        int playerCount = PlayerPrefs.GetInt("playerCount");
+        actualPlayer = PlayerPrefs.GetInt("actualPlayer");
+        remainingTime = turnDurationSeconds;
 
         string figures = PlayerPrefs.GetString("figureNames");
         foreach (string figureName in figures.Split(";"))
@@ -426,7 +441,6 @@ public class Logic : MonoBehaviour
 
         movedFigures = new List<Figure>();
         figures = PlayerPrefs.GetString("movedFigureNames");
-        //Debug.Log(figures.Length);
         if (figures.Length > 0)
         {
             foreach (string figureName in figures.Split(";"))
@@ -464,5 +478,7 @@ public class Logic : MonoBehaviour
         {
             jumpingTurn = true;
         }
+
+        UpdatePoints();
     }
 }

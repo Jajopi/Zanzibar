@@ -12,7 +12,14 @@ public class LightScript : MonoBehaviour
     {
         daylight = GameObject.Find("Daylight").GetComponent<Light>();
         moonlight = GameObject.Find("Moonlight").GetComponent<Light>();
-        secondsPerDay = GameObject.Find("Board").GetComponent<Logic>().turnDurationSeconds;
+        try
+        {
+            secondsPerDay = GameObject.Find("Board").GetComponent<Logic>().turnDurationSeconds;
+        }
+        catch
+        {
+            secondsPerDay = 15f;
+        }
     }
 
     void Update()
