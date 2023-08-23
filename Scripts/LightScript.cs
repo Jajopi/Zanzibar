@@ -8,17 +8,21 @@ public class LightScript : MonoBehaviour
 
     float secondsPerDay;
 
+    bool startMenu = false;
+
     void Start()
     {
         daylight = GameObject.Find("Daylight").GetComponent<Light>();
         moonlight = GameObject.Find("Moonlight").GetComponent<Light>();
+
         try
         {
             secondsPerDay = GameObject.Find("Board").GetComponent<Logic>().turnDurationSeconds;
         }
         catch
         {
-            secondsPerDay = 15f;
+            secondsPerDay = 120f;
+            startMenu = true;
         }
     }
 
@@ -41,6 +45,8 @@ public class LightScript : MonoBehaviour
 
     void Enable()
     {
+        if (startMenu) { return; }
+
         if (daylight.transform.localEulerAngles.y >= 90 &&
             daylight.transform.localEulerAngles.y < 270)
         {

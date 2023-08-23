@@ -8,22 +8,15 @@ using TMPro;
 public class MenuScript : MonoBehaviour
 {
     int MAX_PLAYERS = 6;
-    int playerFields = 1;
+    int playerFields = 0;
 
     float fieldHeight = 70f;
 
     public GameObject inputFieldPrefab;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        AddPlayer();
     }
 
     public void NewPlayerButton()
@@ -37,6 +30,7 @@ public class MenuScript : MonoBehaviour
         GameObject newField = Instantiate(inputFieldPrefab, transform);
         newField.GetComponent<RectTransform>().anchoredPosition = new Vector3(
             0, -1 * playerFields++ * fieldHeight, 0);
+        newField.SetActive(true);
     }
 
     List<string> GetPlayerNames()
