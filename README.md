@@ -1,4 +1,4 @@
-# Debug info
+# User documentation
 
 ## Running builds
 
@@ -9,8 +9,8 @@ Otherwise, just download the .zip file you need.
 The folder contains build for Windows and build for Linux:
 
 - unzip coresponding build
-- on Windows, run Zanzibar.exe
-- on Linux, run LinuxBuild.x86_64
+- on Windows, run .exe file
+- on Linux, run .x86_64 file
 
 ## Starting a game
 
@@ -87,6 +87,27 @@ the quest is shown
 according to the number of own figures occupying nodes shown by
 the quest -- first corresponds to 0 figures, second to 1 figure...
 
-## Why
+## Why? -- history
 
-I'll explain later. (= #TODO)
+The game is almost entirely based on a board game
+[Zanzibar](https://boardgamegeek.com/boardgame/28246/zanzibar)
+which I was playing with my friends when I got an idea to create
+a computer version of it to use at a camp:
+
+The game was used as a part of a game played at an
+[LTT](https://ltt.trojsten.sk/)[2023](https://ltt-conference.trojsten.sk)
+which consisted of 5 those games running at 5 different computers
+each at it's own location. At each location, there were playing
+3 to 4 teams, and it was possible to get physical resources by
+doing quests (not to be confused with quests mentioned before).
+The resources were then used to pay for moves in this game.
+
+The lore of the camp was a native american tribe and a
+[toki pona](https://tokipona.org/)
+constructed language, which we tried to teach the participants during the
+camp. That's the reason behind strange quest names.
+You should also try to learn toki pona!
+
+I hope you will enjoy the game!
+
+[Program documentation (in slovak)](Dokumentacia.md)
